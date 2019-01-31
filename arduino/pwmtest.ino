@@ -6,17 +6,30 @@
 #define OFFSET 1500
 #define FREQUENCY 50
 
+// Instantiate the Adafruit driver class
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-int servo1 = 0;
-int servo2 = 1;
-int servo3 = 2;
-int servo4 = 3;
-int servo5 = 4;
-int servo6 = 5;
+// BASE, SHOULDER, ELBOW, ROLL, PITCH, WRIST
+int BASE = 0;
+int SHOULDER = 1;
+int ELBOW = 2;
+int ROLL = 3;
+int PITCH = 4;
+int WRIST = 5;
 
+// Variable for manipulation
 char c;
 int a;
+
+// Method for pulse width conversion and controll servo
+void setPulse(int pin, int value) { // Take 2 params: pin num & value
+  // Convert to pulse width
+  int pulse_width;
+  pulse_width = int(float(value) / 1000000 * FREQUENCY * 4096);
+ 
+  // Control the servo
+  pwm.setPWM(pin, 0, pulse_width);
+}
 
 void setup() {
     pwm.begin();
@@ -24,6 +37,7 @@ void setup() {
     pwm.setPWMFreq(FREQUENCY);
 }
 
+// Method for angle munipulation on the Servo
 void setAngle(int angle, int servoOut) {
     int pulse_wide, pulse_width;
 
